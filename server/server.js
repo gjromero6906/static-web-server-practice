@@ -14,9 +14,9 @@ const logRoutes = (req, res, next) => {
   next(); // pass to the next handler
 };
 
-app.use(serveStatic);
 
 app.use(logRoutes);
+
 const serveHTML = (req, res, next) => {
   res.send('<h1>Welcome to the API</h1>');
 };
@@ -28,11 +28,14 @@ const serveHello = (req, res, next) => {
 const serve404 = (req, res, next) => {
   res.status(404).send({ error: `Not found: ${req.originalUrl}` });
 }
-app.get('/', serveHTML);
+
+app.get('/api', serveHTML);
 app.get('/api/hello', serveHello);
+app.use(serveStatic);
 app.use(serve404);
 
 // other controllers 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
